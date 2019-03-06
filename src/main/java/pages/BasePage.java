@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Base class for Page objects
+ * Base class for Page objects.
  */
 public class BasePage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
@@ -31,7 +31,7 @@ public class BasePage {
     public String pageURL = "";
     public String pageTitle = "";
 
-    public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+    public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static final int MAIN_TIMEOUT = getTimeout();
     public static final int SHORT_TIMEOUT = getShortTimeout();
@@ -72,6 +72,9 @@ public class BasePage {
         return driver.get();
     }
 
+    /**
+     * Checks if the page is loaded by verifying it's title and url.
+     */
     public boolean isPageLoaded() {
         boolean result = false;
         reporter.info("Page title is: " + driver().getTitle());
@@ -93,10 +96,16 @@ public class BasePage {
         return result;
     }
 
+    /**
+     * Reloads the current page.
+     */
     public void reloadPage() {
         driver().navigate().refresh();
     }
 
+    /**
+     * Navigates to the page url.
+     */
     public void open() {
 
         reporter.info("Opening the page: " + "\"" + BASE_URL + pageURL + "\"");
@@ -104,25 +113,35 @@ public class BasePage {
         //driver().manage().window().maximize();
     }
 
+    /**
+     * Closes the browser.
+     */
     public void close() {
         reporter.info("Closing the browser");
         driver().close();
     }
 
+    /**
+     * Returns the page title.
+     */
     public String getTitle() {
         reporter.info("The page title is: " + "\"" + pageTitle + "\"");
         return pageTitle;
     }
 
+    /**
+     * Returns page url.
+     */
     public String getURL() {
         reporter.info("The requested URL is: " + BASE_URL + pageURL);
         return BASE_URL + pageURL;
     }
 
-    protected void sendText(String cssSelector, String text) {
-        findElement(By.cssSelector(cssSelector)).sendKeys(text);
-    }
-
+    /**
+     * Sets the text to web element by locator.
+     * @param element locator
+     * @param value text
+     */
     public void setText(By element, String value){
         if (value != null) {
             findElement(element).clear();
@@ -130,37 +149,29 @@ public class BasePage {
         }
     }
 
+    /**
+     * Checks if page source contains required text.
+     */
     public boolean isTextPresent(String text) {
         return driver().getPageSource().contains(text);
     }
 
+    /**
+     * Checks if Element is present on the page.
+     */
     public boolean isElementPresent(By by) {
         try {
-            WebElement element = driver().findElements(by).get(0);
-            return element.isDisplayed();
-        } catch (RuntimeException e) {
+            WebElement element = findElementIgnoreException(by);
+            return element != null;
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean isElementPresent(WebElement element) {
-        try {
-            return element.isDisplayed();
-        } catch (RuntimeException e) {
-            return false;
-        }
-    }
-
-    public boolean isElementPresent(String _cssSelector) {
-        try {
-            findElementIgnoreException(By.cssSelector(_cssSelector));
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
-    }
-
-    public boolean isElementPresentAndDisplay(By by) {
+    /**
+     * Checks if Element is displayed on the page.
+     */
+    public boolean isElementDisplayed(By by) {
         try {
             return findElementIgnoreException(by).isDisplayed();
         } catch (Exception e) {
@@ -168,25 +179,26 @@ public class BasePage {
         }
     }
 
-    public boolean isElementDisplayedRightNow(By by) {
-        try {
-            return driver().findElements(by).size() > 0;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
+    /**
+     * Returns web element by selector.
+     */
     public WebElement getWebElement(By by) {
         return findElement(by);
     }
 
-
+    /**
+     * Selects required item from the drop-down
+     * @param element drop-down element
+     * @param value item to be selected
+     */
     public void selectFromDropdown(By element, String value){
         Select dropdown = new Select(findElement(element));
         dropdown.selectByVisibleText(value);
     }
 
-
+    /**
+     * Clicks on web element ignoring all exceptions.
+     */
     public void clickOnElementIgnoreException(By element, int... timeout) {
         waitForPageToLoad();
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
@@ -200,6 +212,10 @@ public class BasePage {
         waitForPageToLoad();
     }
 
+    /**
+     * Finds required element by selector ignoring all exceptions.
+     * @return web element / null if not found.
+     */
     public WebElement findElementIgnoreException(By element, int... timeout) {
         //waitForPageToLoad();
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
@@ -214,6 +230,10 @@ public class BasePage {
         }
     }
 
+    /**
+     * Finds required elements by selector ignoring all exceptions.
+     * @return web element list / empty list if not found.
+     */
     public List<WebElement> findElementsIgnoreException(By element, int... timeout) {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
         //waitForPageToLoad();
@@ -228,6 +248,9 @@ public class BasePage {
         }
     }
 
+    /**
+     * Clicks on element by locator.
+     */
     public void clickOnElement(By element, int... timeout) {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
         //waitForPageToLoad();
@@ -271,20 +294,6 @@ public class BasePage {
         }
     }
 
-    public WebElement findElementPresent(By element, int... timeout) {
-        int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
-        //waitForPageToLoad();
-        try {
-            //synchronize();
-            (new WebDriverWait(driver(), timeoutForFindElement))
-                    .until(ExpectedConditions.presenceOfElementLocated(element));
-            return driver().findElement(element);
-        } catch (Exception e) {
-            reporter.failWithScreenshot(ReporterManager.getStackTrace(e));
-            throw new RuntimeException("Failure finding element");
-        }
-    }
-
     public List<WebElement> findElements(By element, int... timeout) {
         int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
         //waitForPageToLoad();
@@ -299,47 +308,16 @@ public class BasePage {
         }
     }
 
-    public String getAttributeIDIgnoreExecption(By element, int... timeout) {
-        waitForPageToLoad();
-        try {
-            return getAttributeID(element, timeout[0]);
-        } catch (RuntimeException e) {
-            reporter.info("Got exception. Exception is expected and ignored.");
-        }
-        return null;
-    }
-
-    public String getAttributeID(By element, int... timeout) {
-        int timeoutForFindElement = timeout.length < 1 ? MAIN_TIMEOUT : timeout[0];
-        waitForPageToLoad();
-        try {
-            //synchronize();
-            (new WebDriverWait(driver(), timeoutForFindElement))
-                    .until(ExpectedConditions.visibilityOfElementLocated(element));
-            String id = findElement(element).getAttribute("id");
-            return id;
-        } catch (Exception e) {
-            throw new RuntimeException("Failure getting attribute id of an element");
-        }
-    }
-
-    public void setDriverContextToPage(WebDriver driver) {
-        reporter.info("Setting the context mode to Page");
-        driver.switchTo().defaultContent();
-    }
-
+    /**
+     * Scroll to element using javascript.
+     */
     public void scrollToElement(WebElement element) {
         waitForPageToLoad();
         ((JavascriptExecutor) driver()).executeScript("arguments[0].scrollIntoView();", element);
     }
 
-    public void scrollToShopElement(WebElement element){
-        waitForPageToLoad();
-        ((JavascriptExecutor) driver()).executeScript("arguments[0].focus(); window.scroll(0, window.scrollY+=200)",element);
-    }
-
     /**
-     * wait until page is completely downloaded
+     * wait until page is completely loaded
      */
     public void waitForPageToLoad() {
         sleepFor(STATIC_TIMEOUT); // todo fixme
@@ -362,81 +340,12 @@ public class BasePage {
 
     }
 
-
-    /**
-     * wait until page is completely downloaded and spinner is disappeared
-     */
-    public void waitForPageToLoadAndSpinnerToDisappear(){
-        //sleepFor(2000);
-        sleepFor(DEFAULT_SHORT_TIMEOUT);
-        ExpectedCondition<Boolean> expectationReadyState = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) driver()).executeScript("return document.readyState")
-                        .equals("complete");
-            }
-        };
-
-        ExpectedCondition<Boolean> expectationSpinnerDisappearance = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                return (Boolean)((JavascriptExecutor) driver()).executeScript(
-                        "return document.getElementsByClassName('spinner').length == 0");
-            }
-        };
-
-        ExpectedCondition<Boolean> expectationBigSpinnerDisappearance = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                boolean result = (Boolean)((JavascriptExecutor) driver()).executeScript(
-                        "return document.getElementsByClassName('spin-loader').length == 0");
-                //System.out.println(result);
-                return result;
-            }
-        };
-
-        Wait<WebDriver> waitReadyState = new WebDriverWait(driver(), MAIN_TIMEOUT);
-        Wait<WebDriver> waitSpinnerDisapearance = new WebDriverWait(driver(), MAIN_TIMEOUT);
-
-        try {
-            if(!waitReadyState.until(expectationReadyState))
-                reporter.info("JavaScript readyState query timeout - The page has not finished loading");;
-            if(!waitSpinnerDisapearance.until(expectationSpinnerDisappearance))
-                reporter.info("JavaScript Spinner waiting query timeout - The page has not finished loading");;
-            if(!waitSpinnerDisapearance.until(expectationBigSpinnerDisappearance))
-                reporter.info("JavaScript BigSpinner waiting timeout - The page has not finished loading");;
-        } catch (Exception error) {
-            //reporter.failWithScreenshot("JavaScript readyState query timeout - The page has not finished loading");
-            reporter.info("The page has not finished loading: " + error.getMessage());
-        }
-
-//        String source = driver().getPageSource();
-//
-//        expectation = new ExpectedCondition<Boolean>() {
-//
-//            public Boolean apply(WebDriver driver)
-//            {
-//                return ((JavascriptExecutor) driver).executeScript("return jQuery.active")
-//                        .equals("0");
-//            }
-//
-//        };
-//
-//        wait = new WebDriverWait(driver(), MAIN_TIMEOUT);
-//
-//        try
-//        {
-//            wait.until(expectation);
-//        } catch (Exception error)
-//        {
-//            reporter.failWithScreenshot("The page has not finished loading");
-//        }
-
-    }
-
     public boolean waitForElement(By by){
         //WebDriverWait wait = new WebDriverWait(driver(), MAIN_TIMEOUT);
         //wait.until(ExpectedConditions.presenceOfElementLocated(by));
         boolean result = false;
         for(int i = 0; i < MAIN_TIMEOUT; i++){
-            if(!isElementDisplayedRightNow(by)){
+            if(!isElementDisplayed(by)){
                 sleepFor(1000);
             } else {
                 return true;
@@ -606,7 +515,7 @@ public class BasePage {
     public boolean waitForElementToDisappear(By element) {
         boolean result = false;
         for(int i = 0; i < MAIN_TIMEOUT; i++){
-            if(isElementDisplayedRightNow(element)){
+            if(isElementDisplayed(element)){
                 sleepFor(1000);
             } else {
                 return true;
