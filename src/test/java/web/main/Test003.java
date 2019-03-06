@@ -28,7 +28,7 @@ public class Test003 extends BaseUITest {
 
         MainPage mp = new MainPage();
 
-        List<String> actualData = mp.clickShowMoreReporsitoriesButton().getAllRepositories(login);
+        List<String> actualData = mp.getAllRepositories(login);
         Assert.assertTrue(actualData.containsAll(expectedData), "Actual data: " + actualData + " does not equal to Expected data: " + expectedData);
     }
 }
