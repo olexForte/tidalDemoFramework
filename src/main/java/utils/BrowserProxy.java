@@ -20,7 +20,7 @@ import java.util.List;
 
 
 public class BrowserProxy {
-    private static BrowserProxy instance = null;
+    private static ThreadLocal<BrowserProxy> instance = new ThreadLocal<>();
     public BrowserMobProxy proxyServer;
     private boolean isServerStarted;
     public String currentHarName;
@@ -28,9 +28,9 @@ public class BrowserProxy {
     private static final Logger LOGGER = LoggerFactory.getLogger(BrowserProxy.class);
 
     public static BrowserProxy getInstance() {
-        if (instance == null)
-            instance = new BrowserProxy();
-        return instance;
+        if (instance.get() == null)
+            instance.set(new BrowserProxy());
+        return instance.get();
     }
 
     /**
