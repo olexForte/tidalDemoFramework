@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="login page"  parallel="methods" thread-count="1">
+    <test name="login test">
+        <classes>
+
+            <class name="api.login.Test001"/>
+
+            <class name="web.login.Test001"/>
+            <class name="web.login.Test002"/>
+            <class name="web.main.Test003"/>
+        </classes>
+    </test>
+</suite>
