@@ -532,65 +532,6 @@ public class BasePage {
         ((JavascriptExecutor) driver()).executeScript("arguments[0].click()",element);
     }
 
-    /**
-     * Zoom in/Out  (NOTE: NOT FOR PARALLEL EXCUTION)
-     *
-     * @param zoomLevel<br>
-     *   zoomLevel  -1 -2 -3 -4 -5 .. - corresponds to Zoom OUT 90, 80, 75, 67, 50 <br>
-     *   zoom level  1 2 3 4 5      .. - corresponds to Zoom IN 110, 125, 150, 175, 200 <br>
-     *   zoom level > 5 || < -5 - Zoom using JS
-     * @throws AWTException
-     */
-    public void zoom(int zoomLevel) throws AWTException {
-        sleepFor(2000);
-        if(zoomLevel > 5 || zoomLevel < -5) {
-            ((JavascriptExecutor) driver()).executeScript("document.body.style.zoom = '" + zoomLevel + "%'");
-
-        } else {
-        Robot r = new Robot();
-        r.mousePress(InputEvent.BUTTON1_MASK);
-        r.mouseRelease(InputEvent.BUTTON1_MASK);
-        if(zoomLevel > 0) {
-            for (int i = 0; i < zoomLevel; i++) {
-                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                    r.keyPress(KeyEvent.VK_META);
-                    sleepFor(1000);
-                    r.keyPress(KeyEvent.VK_SUBTRACT);
-                    r.keyRelease(KeyEvent.VK_SUBTRACT);
-                    sleepFor(1000);
-                    r.keyRelease(KeyEvent.VK_META);
-                } else {
-                    r.keyPress(KeyEvent.VK_CONTROL);
-                    sleepFor(1000);
-                    r.keyPress(KeyEvent.VK_SUBTRACT);
-                    r.keyRelease(KeyEvent.VK_SUBTRACT);
-                    sleepFor(1000);
-                    r.keyRelease(KeyEvent.VK_CONTROL);
-                };
-            };
-        }else {
-            for (int i = 0; i > zoomLevel; i--) {
-                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                    r.keyPress(KeyEvent.VK_META);
-                    sleepFor(1000);
-                    r.keyPress(KeyEvent.VK_SUBTRACT);
-                    r.keyRelease(KeyEvent.VK_SUBTRACT);
-                    sleepFor(1000);
-                    r.keyRelease(KeyEvent.VK_META);
-                } else {
-                    r.keyPress(KeyEvent.VK_CONTROL);
-                    sleepFor(1000);
-                    r.keyPress(KeyEvent.VK_SUBTRACT);
-                    r.keyRelease(KeyEvent.VK_SUBTRACT);
-                    sleepFor(1000);
-                    r.keyRelease(KeyEvent.VK_CONTROL);
-                }
-                ;
-            }
-        }
-        }
-    }
-
     public void clickOnElementRightButton(By element) {
         waitForPageToLoad();
         try {

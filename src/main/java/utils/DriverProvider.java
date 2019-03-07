@@ -154,6 +154,10 @@ public class DriverProvider {
         return driver;
     }
 
+    /**
+     * Returns required driver instance.
+     * If no browser name specified returns chrome.
+     */
     public static WebDriver getDriver() {
         //if (instance == null)
         if (instance.get() == null)
