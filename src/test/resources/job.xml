@@ -1,0 +1,46 @@
+<tes:job xmlns:tes="http://www.tidalsoftware.com/client/tesservlet">
+    <tes:childrencount>0</tes:childrencount>
+    <tes:agenttype>6</tes:agenttype>
+    <tes:agentostype>1</tes:agentostype>
+    <tes:ownername>dv\tes</tes:ownername>
+    <tes:agentname>HCUSGR139 QA POEM</tes:agentname>
+    <tes:lastusermodifiedtime>2019-03-25T04:09:31-0700</tes:lastusermodifiedtime>
+    <tes:unixprofile>0</tes:unixprofile>
+    <tes:isrunbook>false</tes:isrunbook>
+    <tes:exitcodenormaloperator>1</tes:exitcodenormaloperator>
+    <tes:rerundependency>N</tes:rerundependency>
+    <tes:excludeabnormalduration>4</tes:excludeabnormalduration>
+    <tes:durationminimum>60</tes:durationminimum>
+    <tes:parameters>ping 8.8.8.8</tes:parameters>
+    <tes:isnotes>false</tes:isnotes>
+    <tes:disablecarryover>0</tes:disablecarryover>
+    <tes:normalexitfromrange>0</tes:normalexitfromrange>
+    <tes:priority>50</tes:priority>
+    <tes:concurrency>2</tes:concurrency>
+    <tes:saveoutputoption>Y</tes:saveoutputoption>
+    <tes:durationestimated>60</tes:durationestimated>
+    <tes:trackingmethod>1</tes:trackingmethod>
+    <tes:inherittimewindow>N</tes:inherittimewindow>
+    <tes:active>Y</tes:active>
+    <tes:allowunscheduled>Y</tes:allowunscheduled>
+    <tes:dependencylogic>1</tes:dependencylogic>
+    <tes:ownerid>68</tes:ownerid>
+    <tes:inheritrepeat>N</tes:inheritrepeat>
+    <tes:agentid>754</tes:agentid>
+    <tes:inheritoptions>N</tes:inheritoptions>
+    <tes:successorsvalue>N</tes:successorsvalue>
+    <tes:estimatedmethod>1</tes:estimatedmethod>
+    <tes:durationmaximum>60</tes:durationmaximum>
+    <tes:historyretention>45</tes:historyretention>
+    <tes:inheritagent>N</tes:inheritagent>
+    <tes:nearoutage>3</tes:nearoutage>
+    <tes:type>2</tes:type>
+    <tes:predecessorsvalue>N</tes:predecessorsvalue>
+    <tes:allowrerun>Y</tes:allowrerun>
+    <tes:inheritcalendar>N</tes:inheritcalendar>
+    <tes:dirty> </tes:dirty>
+    <tes:repeat/>
+    <tes:normalexittorange>0</tes:normalexittorange>
+    <tes:waitOperator>N</tes:waitOperator>
+    <tes:command>cmd.exe</tes:command>
+</tes:job>
