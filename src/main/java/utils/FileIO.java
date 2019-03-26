@@ -85,6 +85,11 @@ public class FileIO {
         return DATA_RESOURCES + FileIO.getConfigProperty("EnvType") + "/" + filename ;
     }
 
+    public static String getTestDataFile(String filename){
+        return TEST_RESOURCES + FileIO.getConfigProperty("EnvType") + "/" + filename ;
+
+    }
+
     public static String getDataFileContent(String filename){
         String result = null;
         try {
