@@ -16,7 +16,7 @@ public class Diff {
         return diff.isEmpty();
     }
 
-    public String prettyString(){
+    public String asPrettyString(){
         String prettyString = "\n";
 
         for(String s: diff){

@@ -19,7 +19,7 @@ import java.util.List;
 @XmlRootElement
 public class Job extends BaseEntity{
 
-    //region Fields and Setters
+    //region Fields, Getters and Setters
     String active;
     Integer agentid;
     Integer agentlistid;
@@ -850,6 +850,7 @@ public class Job extends BaseEntity{
     }
     //endregion
 
+    //region Conversions
     public static Job getJobFromFile(String filePath) throws Exception {
         Document doc = getDocumentBuilder().parse(new File(filePath));
         return (Job)getUnmarshaller(Job.class).unmarshal(doc);
@@ -879,7 +880,9 @@ public class Job extends BaseEntity{
         XPath xPath =  XPathFactory.newInstance().newXPath();
         return xPath.compile("//*[local-name() = 'objectid']").evaluate(doc);
     }
+    //endregion
 
+    //region Requests
     public String createRequest() throws JAXBException {
 
         OutputStream marshalledJobOS = new ByteArrayOutputStream();
@@ -931,4 +934,5 @@ public class Job extends BaseEntity{
                 "\t</tes:Job.get>\n" +
                 "</entry>";
     }
+    //endregion
 }

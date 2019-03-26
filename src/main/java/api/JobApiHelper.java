@@ -13,13 +13,16 @@ public class JobApiHelper extends BaseApiHelper{
     }
 
     public Response createJob(Job obj) throws Exception {
-        return given()
+        Response response =
+                given()
                 .auth().basic(UserName, Password)
                 .when().param("data", obj.createRequest())
                 .post(baseURL)
                 .then()
                 .extract()
                 .response();
+
+        return response;
     }
 
     public Response getJob(String id) throws Exception{
