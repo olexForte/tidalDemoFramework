@@ -46,6 +46,12 @@
             <version>6.10</version>
         </dependency>
 
+    <dependency>
+        <groupId>de.danielbechler</groupId>
+        <artifactId>java-object-diff</artifactId>
+        <version>0.95</version>
+    </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -81,6 +87,12 @@
         <artifactId>gson</artifactId>
         <version>2.5</version>
     </dependency>
+    <dependency>
+        <groupId>de.danielbechler</groupId>
+        <artifactId>java-object-diff</artifactId>
+        <version>0.95</version>
+        <scope>test</scope>
+    </dependency>
 
-    </dependencies>
+</dependencies>
 </project>
