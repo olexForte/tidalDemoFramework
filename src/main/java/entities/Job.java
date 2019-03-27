@@ -934,5 +934,21 @@ public class Job extends BaseEntity{
                 "\t</tes:Job.get>\n" +
                 "</entry>";
     }
+
+    public static String insertInSceduleRequest(String jobId, String startDate, String fromTime, String untilTime, String params, String vars, String deps, String usejobtz){
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
+                "<entry xmlns=\"http://purl.org/atom/ns#\">\n" +
+                "\t<tes:Job.insert xmlns:tes=\"http://www.tidalsoftware.com/client/tesservlet\">\n" +
+                "\t\t<id>"+ jobId +"</id>\n" +
+                "\t\t<startdate>"+ startDate +"</startdate>\n" +
+                "\t\t<fromtime>"+ fromTime +"</fromtime>\n" +
+                "\t\t<untiltime>"+ untilTime +"</untiltime>\n" +
+                "\t\t<params>"+ params +"</params>\n" +
+                "\t\t<vars>"+ vars +"</vars>\n" +
+                "\t\t<deps>"+ deps +"</deps>\n" +
+                "\t\t<usejobtz>"+ usejobtz +"</usejobtz>\n" +
+                "\t</tes:Job.insert>\n" +
+                "</entry>";
+    }
     //endregion
 }

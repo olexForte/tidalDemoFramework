@@ -44,4 +44,14 @@ public class JobApiHelper extends BaseApiHelper{
                 .extract()
                 .response();
     }
+
+    public Response insertJobIntoScedule(String jobId, String startDate, String fromTime, String untilTime, String params, String vars, String deps, String usejobtz) throws Exception{
+        return given()
+                .auth().basic(UserName, Password)
+                .when().param("data", Job.insertInSceduleRequest(jobId, startDate, fromTime, untilTime, params, vars, deps, usejobtz))
+                .post(baseURL)
+                .then()
+                .extract()
+                .response();
+    }
 }

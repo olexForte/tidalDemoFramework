@@ -42,6 +42,21 @@ public class TidalDemo extends BaseTest {
         Diff diff = BaseEntity.CompareEntities(job, createdJob);
         Assert.assertTrue(diff.isEmpty(), diff.asPrettyString());
 
+        Response insertedREsponse =
+                apiHelper.insertJobIntoScedule(
+                    createdJob.getId().toString(),
+                    "20190327",
+                    "0000",
+                    "2345",
+                    createdJob.getParameters(),
+                    "",
+                    "N",
+                    "N"
+                );
+
+        String title = insertedREsponse.body().xmlPath().get("feed.title");
+        Assert.assertTrue(!title.contains("exception"));
+
         reporter.info("Deleting the job");
         Response deleteJobResponse = apiHelper.deleteJob(createdJob);
 
